@@ -2309,8 +2309,8 @@ public class MainWindow extends JFrame {
 		return new ImageIcon(Options.getIconPath(name).toString());
 	}
 
-	public void doActionViewTile() {
-		ActionViewTile fActionViewTileMVM = new ActionViewTile();
-		System.out.println("lanza doActionViewTile");
-	}
+//	public void doActionViewTile() {
+//		ActionViewTile fActionViewTileMVM = new ActionViewTile();
+//		System.out.println("lanza doActionViewTile");
+//	}
 }
