@@ -487,7 +487,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		setBounds(10, 20, 900, 700);
+		setBounds(10, 20, 1000, 700);// JGJG Antes (10, 20, 900, 700)
 
 		// GUI Plugin integration
 		if (Options.doPLUGIN) {
