@@ -103,6 +103,7 @@ import org.tzi.use.gui.views.ObjectPropertiesView;
 import org.tzi.use.gui.views.PrintableView;
 import org.tzi.use.gui.views.StateEvolutionView;
 import org.tzi.use.gui.views.View;
+import org.tzi.use.gui.views.WizardMVMView;
 import org.tzi.use.gui.views.diagrams.behavior.communicationdiagram.CommunicationDiagramView;
 import org.tzi.use.gui.views.diagrams.behavior.sequencediagram.SDScrollPane;
 import org.tzi.use.gui.views.diagrams.behavior.sequencediagram.SequenceDiagramView;
@@ -2307,6 +2308,19 @@ public class MainWindow extends JFrame {
 
 	private Icon getIcon(String name) {
 		return new ImageIcon(Options.getIconPath(name).toString());
+	}
+	//Aqui1
+
+	public WizardMVMView showMVMWizard() {
+		WizardMVMView opv = new WizardMVMView(MainWindow.this,
+				fSession.system());
+		ViewFrame f = new ViewFrame("MVM Wizard", opv,
+				"ObjectProperties.gif");
+		JComponent c = (JComponent) f.getContentPane();
+		c.setLayout(new BorderLayout());
+		c.add(opv, BorderLayout.CENTER);
+		addNewViewFrame(f);
+		return opv;
 	}
 
 //	public void doActionViewTile() {
