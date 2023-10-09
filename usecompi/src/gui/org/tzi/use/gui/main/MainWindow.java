@@ -85,6 +85,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+
 import org.tzi.use.config.Options;
 import org.tzi.use.config.RecentItems;
 import org.tzi.use.config.RecentItems.RecentItemsObserver;
@@ -145,6 +146,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+
+
 
 /**
  * The main application window of USE.
@@ -488,7 +491,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		setBounds(10, 20, 1000, 700);// JGJG Antes (10, 20, 900, 700)
+		setBounds(10, 20, 1600, 700);// JGJG Antes (10, 20, 900, 700)
 
 		// GUI Plugin integration
 		if (Options.doPLUGIN) {

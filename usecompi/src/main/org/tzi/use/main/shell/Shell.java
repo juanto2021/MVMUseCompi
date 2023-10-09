@@ -696,8 +696,12 @@ public final class Shell implements Runnable, PPCHandler {
 		// Write command history to file
 		if (!Options.quiet) {
 			try {
+				if (fReadline!=null) {
+//					fReadline.writeHistory(Options.USE_HISTORY_PATH);// Origunal
+				}
 				fReadline.writeHistory(Options.USE_HISTORY_PATH);
-			} catch (IOException ex) {
+//			} catch (IOException ex) {
+			} catch (Exception ex) { // Atrapo error por invocacion desde wizard sin fReadline
 				Log.error("Can't write history file "
 						+ Options.USE_HISTORY_PATH + " : " + ex.getMessage());
 			}
