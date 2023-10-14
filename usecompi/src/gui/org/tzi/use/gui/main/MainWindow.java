@@ -2256,7 +2256,18 @@ public class MainWindow extends JFrame {
 		addNewViewFrame(f);
 		return opv;
 	}
-
+	public WizardMVMView showMVMWizard(String name) {
+		WizardMVMView opv = new WizardMVMView(MainWindow.this,
+				fSession);
+		ViewFrame f = new ViewFrame("MVM Wizard", opv,
+				"ObjectProperties.gif");
+		f.setName(name);
+		JComponent c = (JComponent) f.getContentPane();
+		c.setLayout(new BorderLayout());
+		c.add(opv, BorderLayout.CENTER);
+		addNewViewFrame(f);
+		return opv;
+	}
 	/**
 	 * Creates some initial views and tiles them.
 	 */
@@ -2316,7 +2327,7 @@ public class MainWindow extends JFrame {
 
 	public WizardMVMView showMVMWizard() {
 		WizardMVMView opv = new WizardMVMView(MainWindow.this,
-				fSession.system());
+				fSession);
 		ViewFrame f = new ViewFrame("MVM Wizard", opv,
 				"ObjectProperties.gif");
 		JComponent c = (JComponent) f.getContentPane();
