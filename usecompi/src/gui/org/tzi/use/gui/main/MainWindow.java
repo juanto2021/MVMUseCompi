@@ -85,7 +85,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-
+//import org.tzi.kodkod.model.iface.IModel;
 import org.tzi.use.config.Options;
 import org.tzi.use.config.RecentItems;
 import org.tzi.use.config.RecentItems.RecentItemsObserver;
@@ -147,8 +147,6 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
-
-
 /**
  * The main application window of USE.
  * 
@@ -191,6 +189,11 @@ public class MainWindow extends JFrame {
 
 	private static final String DEFAULT_UNDO_TEXT = "Undo last statement";
 	private static final String DEFAULT_REDO_TEXT = "Redo last undone statement";
+
+	private static int DEFAULT_WIDTH_MVM = 1200;
+	private static int DEFAULT_HEIGHT_MVM = 800;
+	private static final String NAMEFRAMEMVMDIAGRAM = "MVM";
+	private static final String NAMEFRAMEMVMWIZARD = "MVMWizard";
 
 	private static final String STATE_EVAL_OCL = "Evaluate OCL expression";
 
@@ -259,6 +262,8 @@ public class MainWindow extends JFrame {
 				"Create statemachine diagram view");
 		addToToolBar(fToolBar, fActionViewCreateObjectDiagram,
 				"Create object diagram view");
+		addToToolBar(fToolBar, fActionViewCreateMVMWizard,
+				"Create MVM Wizard view");
 		addToToolBar(fToolBar, fActionViewCreateClassInvariant,
 				"Create class invariant view");
 		addToToolBar(fToolBar, fActionViewCreateObjectCount,
@@ -282,8 +287,6 @@ public class MainWindow extends JFrame {
 				"Create call stack view");
 		addToToolBar(fToolBar, fActionViewCreateCommandList,
 				"Create command list view");
-		// addToToolBar(toolBar, fActionViewCreateStateTree, "Create state tree
-		// view");
 
 		// create the menubar
 		fMenuBar = new JMenuBar();
@@ -451,6 +454,17 @@ public class MainWindow extends JFrame {
 		mi = menu.add(fActionViewCloseAll);
 		mi.setMnemonic('a');
 
+		// `MVM' submenu
+		menu = new JMenu("MVM");
+		menu.setMnemonic('M');
+		fMenuBar.add(menu);
+
+		submenu = new JMenu("MVM Wizard");
+		submenu.setMnemonic('C');
+		menu.add(submenu);
+		mi = submenu.add(fActionViewCreateMVMWizard);
+		mi.setMnemonic('V');
+
 		// create the browser panel
 		fModelBrowser = new ModelBrowser(this, fPluginRuntime);
 
@@ -469,16 +483,20 @@ public class MainWindow extends JFrame {
 		// put the three panels into split panes
 		JSplitPane sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				fModelBrowser, fDesk);
-		sp.setDividerLocation((int) (0.25 * Options.DEFAULT_WIDTH));//FIXME 200); 
-		fTopSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, sp, fLogPanel);
-		fTopSplitPane.setDividerLocation((int) (0.72 * Options.DEFAULT_HEIGHT));//FIXME 400);
+		//		sp.setDividerLocation((int) (0.25 * Options.DEFAULT_WIDTH));//FIXME 200); 
+		//		sp.setDividerLocation((int) (0.25 * DEFAULT_WIDTH_MVM));//FIXME 200); // Amplio ancho pantalla para MVM
+		sp.setDividerLocation((int) (0.13 * DEFAULT_WIDTH_MVM));//FIXME 200); // Amplio ancho pantalla para MVM
+		fTopSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, sp, fLogPanel); 
+		//		fTopSplitPane.setDividerLocation((int) (0.72 * Options.DEFAULT_HEIGHT));//FIXME 400);
+		fTopSplitPane.setDividerLocation((int) (0.72 * DEFAULT_HEIGHT_MVM));//FIXME 400);
 		fTopSplitPane.setOneTouchExpandable(true);
 		fTopSplitPane.setResizeWeight(.8d);
 
 		// Layout and set the content pane
 		JPanel contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
-		contentPane.setPreferredSize(new Dimension(Options.DEFAULT_WIDTH, Options.DEFAULT_HEIGHT));// FIXME 800, 550));
+		//		contentPane.setPreferredSize(new Dimension(Options.DEFAULT_WIDTH, Options.DEFAULT_HEIGHT));// FIXME 800, 550));
+		contentPane.setPreferredSize(new Dimension(DEFAULT_WIDTH_MVM, DEFAULT_HEIGHT_MVM));// FIXME 800, 550));// Amplio ancho pantalla para MVM
 		contentPane.add(fToolBar, BorderLayout.NORTH);
 		contentPane.add(fTopSplitPane, BorderLayout.CENTER);
 		contentPane.add(fStatusBar, BorderLayout.SOUTH);
@@ -491,7 +509,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		setBounds(10, 20, 1600, 700);// JGJG Antes (10, 20, 900, 700)
+		setBounds(10, 20, 900, 700);//JGJG antes (10, 20, 900, 700)
 
 		// GUI Plugin integration
 		if (Options.doPLUGIN) {
@@ -899,6 +917,7 @@ public class MainWindow extends JFrame {
 		fStateMachineDropdown.setEnabled(on);
 		statemachineMenu.setEnabled(on);
 		fActionViewCreateObjectDiagram.setEnabled(on);
+		fActionViewCreateMVMWizard.setEnabled(on);
 		fActionViewCreateClassInvariant.setEnabled(on);
 		fActionViewCreateStateEvolution.setEnabled(on);
 		fActionViewCreateObjectProperties.setEnabled(on);
@@ -1028,22 +1047,22 @@ public class MainWindow extends JFrame {
 		if (loc / (fTopSplitPane.getHeight() - fTopSplitPane.getDividerSize()) > 0.95)
 			fTopSplitPane.setDividerLocation(0.75);
 	}
-
-	public void createObject(String clsName) {
-		MClass objectClass = fSession.system().model().getClass(clsName);
-
-		if (objectClass == null) {
-			JOptionPane.showMessageDialog(
-					this, 
-					"No class named `" + clsName + "' defined in model.", 
-					"Error", 
-					JOptionPane.ERROR_MESSAGE);
-
-			return;
-		} 
-
-		createObject(objectClass, null);
-	}
+	//Provis
+		public void createObject(String clsName) {
+			MClass objectClass = fSession.system().model().getClass(clsName);
+	
+			if (objectClass == null) {
+				JOptionPane.showMessageDialog(
+						this, 
+						"No class named `" + clsName + "' defined in model.", 
+						"Error", 
+						JOptionPane.ERROR_MESSAGE);
+	
+				return;
+			} 
+	
+			createObject(objectClass, null);
+		}
 
 	/**
 	 * Creates a new object. Keeps track of undo information and handles errors
@@ -1116,6 +1135,8 @@ public class MainWindow extends JFrame {
 	private final StateMachineDropdown fStateMachineDropdown = new StateMachineDropdown();
 
 	private final ActionViewCreateObjectDiagram fActionViewCreateObjectDiagram = new ActionViewCreateObjectDiagram();
+
+	private final ActionViewCreateMVMWizard fActionViewCreateMVMWizard = new ActionViewCreateMVMWizard();
 
 	private final ActionViewCreateClassInvariant fActionViewCreateClassInvariant = new ActionViewCreateClassInvariant();
 
@@ -1932,6 +1953,76 @@ public class MainWindow extends JFrame {
 			objectDiagrams.add(odv);
 		}
 	}
+	//Aqui
+	private boolean checkExistObjDiagram() {
+		boolean existDiagram=false;
+		// Ver frames
+		JDesktopPane fDesk = getFdesk();
+		JInternalFrame[] allframes = fDesk.getAllFrames();
+
+		for (JInternalFrame ifr: allframes) {
+			if (ifr.getName()!=null ) {
+				if (ifr.getName().equals(NAMEFRAMEMVMDIAGRAM)) {
+					existDiagram=true;
+					continue;
+				}	
+			}
+		}
+
+		if (!existDiagram) {
+			createObjDiagram();
+		}
+		return existDiagram;
+	}
+	private void createObjDiagram() {
+		NewObjectDiagramView odv = new NewObjectDiagramView(this, fSession.system());
+		ViewFrame f = new ViewFrame("Object diagram", odv, "ObjectDiagram.gif");
+		f.setName(NAMEFRAMEMVMDIAGRAM);
+
+		int OBJECTS_LARGE_SYSTEM = 100;
+
+		// Many objects. Ask user if all objects should be hidden
+		if (fSession.system().state().allObjects().size() > OBJECTS_LARGE_SYSTEM) {
+
+			int option = JOptionPane.showConfirmDialog(new JPanel(),
+					"The current system state contains more then " + OBJECTS_LARGE_SYSTEM + " instances." +
+							"This can slow down the object diagram.\r\nDo you want to start with an empty object diagram?",
+							"Large system state", JOptionPane.YES_NO_OPTION);
+
+			if (option == JOptionPane.YES_OPTION) {
+				odv.getDiagram().hideAll();
+			}
+		}
+
+		JComponent c = (JComponent) f.getContentPane();
+		c.setLayout(new BorderLayout());
+		c.add(odv, BorderLayout.CENTER);
+		this.addNewViewFrame(f);
+		this.getObjectDiagrams().add(odv);
+		//Aqui9
+
+//		ActionViewTile fActionViewTile = new ActionViewTile();
+//		// Aqui7
+//		int uniqueId = (int) System.currentTimeMillis();
+//		//		System.currentTimeMillis();
+//		String commandName = "";
+//		ActionEvent ev = new ActionEvent(this, uniqueId, commandName);
+//		fActionViewTile.actionPerformed(ev);
+
+	}
+	/**
+	 * Creates a new object diagram view.
+	 */
+	private class ActionViewCreateMVMWizard extends AbstractAction {
+		ActionViewCreateMVMWizard() {
+			super("MVM Wizard", getIcon("MVM_Wizard.png"));
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			showMVMWizard(NAMEFRAMEMVMWIZARD);
+		}
+	}
 
 	/**
 	 * Creates a new communication diagram view.
@@ -1972,6 +2063,18 @@ public class MainWindow extends JFrame {
 			addNewViewFrame(f);
 			communicationDiagrams.add(cdv);
 		}
+	}
+
+	public void doActionViewTile() {
+		ActionViewTile fActionViewTileMVM = new ActionViewTile();
+		ActionViewTile fActionViewTile = new ActionViewTile();
+		// Aqui7
+		int uniqueId = (int) System.currentTimeMillis();
+		//		System.currentTimeMillis();
+		String commandName = "";
+		ActionEvent ev = new ActionEvent(this, uniqueId, commandName);
+		fActionViewTile.actionPerformed(ev);
+		
 	}
 
 	/**
@@ -2173,6 +2276,30 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	public JInternalFrame[] sortInternalFrames(JInternalFrame[] allframes) {
+		int nFrames = allframes.length;
+		JInternalFrame[] allframesRes = new JInternalFrame[nFrames];
+		// En priner lugar coloca el frame de Wizard
+		int nfs=0;
+		for (int nf = 0; nf < nFrames; nf++) {
+			JInternalFrame f = allframes[nf];
+			if (f.getName().equals(NAMEFRAMEMVMWIZARD)) {
+				allframesRes[0] = f;
+				nfs+=1;
+			}
+		}
+		// Luego coloca el resto
+		for (int nf = 0; nf < nFrames; nf++) {
+			JInternalFrame f = allframes[nf];
+			
+			if (!f.getName().equals(NAMEFRAMEMVMWIZARD)) {
+				allframesRes[nfs] = f;
+				nfs+=1;
+			}
+		}
+		return allframesRes;
+	}
+
 	/**
 	 * Tile all internal frames.
 	 */
@@ -2184,7 +2311,9 @@ public class MainWindow extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent ev) {
 			// How many frames do we have?
-			JInternalFrame[] allframes = fDesk.getAllFrames();
+//			sortInternalFrames(JInternalFrame[] allframes)
+//			JInternalFrame[] allframes = fDesk.getAllFrames();
+			JInternalFrame[] allframes = sortInternalFrames(fDesk.getAllFrames());
 			int count = allframes.length;
 			if (count == 0)
 				return;
@@ -2256,18 +2385,25 @@ public class MainWindow extends JFrame {
 		addNewViewFrame(f);
 		return opv;
 	}
+
 	public WizardMVMView showMVMWizard(String name) {
 		WizardMVMView opv = new WizardMVMView(MainWindow.this,
-				fSession);
+				fSession, fLogWriter);
 		ViewFrame f = new ViewFrame("MVM Wizard", opv,
-				"ObjectProperties.gif");
+				"MVM_Wizard.png");
 		f.setName(name);
 		JComponent c = (JComponent) f.getContentPane();
 		c.setLayout(new BorderLayout());
 		c.add(opv, BorderLayout.CENTER);
 		addNewViewFrame(f);
+		int uniqueId = (int) System.currentTimeMillis();
+		String commandName = "";
+		ActionEvent ev = new ActionEvent(this, uniqueId, commandName);
+		fActionViewTile.actionPerformed(ev);
+		
 		return opv;
 	}
+
 	/**
 	 * Creates some initial views and tiles them.
 	 */
@@ -2323,22 +2459,8 @@ public class MainWindow extends JFrame {
 	private Icon getIcon(String name) {
 		return new ImageIcon(Options.getIconPath(name).toString());
 	}
-	//Aqui1
-
-	public WizardMVMView showMVMWizard() {
-		WizardMVMView opv = new WizardMVMView(MainWindow.this,
-				fSession);
-		ViewFrame f = new ViewFrame("MVM Wizard", opv,
-				"ObjectProperties.gif");
-		JComponent c = (JComponent) f.getContentPane();
-		c.setLayout(new BorderLayout());
-		c.add(opv, BorderLayout.CENTER);
-		addNewViewFrame(f);
-		return opv;
-	}
-
-//	public void doActionViewTile() {
-//		ActionViewTile fActionViewTileMVM = new ActionViewTile();
-//		System.out.println("lanza doActionViewTile");
-//	}
+	//	public void doActionViewTile() {
+	//		ActionViewTile fActionViewTileMVM = new ActionViewTile();
+	//		System.out.println("lanza doActionViewTile");
+	//	}
 }
