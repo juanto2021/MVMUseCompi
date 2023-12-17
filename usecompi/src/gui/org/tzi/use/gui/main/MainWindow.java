@@ -1220,6 +1220,9 @@ public class MainWindow extends JFrame {
 			}
 		}
 
+		public void launchCompile( Path f){
+			compile(f);
+		}
 		protected boolean compile(final Path f) {
 			fLogPanel.clear();
 			showLogPanel();
