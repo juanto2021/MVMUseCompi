@@ -768,6 +768,9 @@ public class WizardMVMView extends JPanel implements View {
 		add(panel);
 
 		setSize(new Dimension(400, 300));
+		
+		// Provis
+		refreshComponents();
 
 	}
 	/**
