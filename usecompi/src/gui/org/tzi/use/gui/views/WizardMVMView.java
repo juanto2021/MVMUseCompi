@@ -139,6 +139,11 @@ public class WizardMVMView extends JPanel implements View {
 	private DefaultListModel<String> modelObjects;
 	private DefaultTableModel modelTabAttrs;
 
+	// Titles
+		private JLabel lbTitleElements;
+		private JLabel lbTitleAssociations;
+		private JLabel lbTitleActions;
+	
 	private JLabel lbClass;
 	private JLabel lbObjects;
 	private JLabel lbAttrs;
@@ -314,6 +319,12 @@ public class WizardMVMView extends JPanel implements View {
 		modelObjects = new DefaultListModel<>();
 		modelTabAttrs = new DefaultTableModel();
 
+		lbTitleElements = new JLabel("Elements");
+		lbTitleElements.setBounds(10, 500, 60, 25);
+		Font titleFont = new Font(lbTitleElements.getFont().getName(), Font.BOLD, 18);
+		lbTitleElements.setFont(titleFont);
+		panel.add(lbTitleElements);
+		
 		lbClass = new JLabel("Class");
 		lbClass.setBounds(10, 15, 60, 25);
 		panel.add(lbClass);
