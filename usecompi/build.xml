@@ -57,6 +57,7 @@
 	<property name="annotation.jar"       location="${build.libbuild.dir}/org.eclipse.jdt.annotation_1.1.0.v20130513-1648.jar"/> 
 	<property name="readline.src.dir"     location="${src.main.dir}/org/tzi/use/util/input"/>
 	<property name="parser.dir"           location="${src.main.dir}/org/tzi/use/parser"/>
+	
 	<path id="use.classpath.absolute">
 		<fileset dir="${lib.dir}" includes="*.jar" excludes="use*"/>
 		<pathelement path="${use-gui.jar}"/>
