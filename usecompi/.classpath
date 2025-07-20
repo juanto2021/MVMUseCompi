@@ -18,10 +18,13 @@
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib/jruby-1.7.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib_build/org.eclipse.jdt.annotation_1.1.0.v20130513-1648.jar"/>
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib/itextpdf-5.5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib/apache-xml-xerces.jar"/>
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib/java-json.jar"/>
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib/okhttp-3.9.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib/okio-1.13.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib/json-20210307.jar"/>
+	<classpathentry kind="lib" path="C:/Users/utopi/git/MVM/ModelValidatorPlugin/lib/jackson-annotations-2.16.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/utopi/git/MVM/ModelValidatorPlugin/lib/jackson-core-2.16.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/utopi/git/MVM/ModelValidatorPlugin/lib/jackson-databind-2.16.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib/apache-xml-xerces.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
