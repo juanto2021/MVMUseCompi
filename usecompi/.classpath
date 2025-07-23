@@ -26,5 +26,6 @@
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVM/ModelValidatorPlugin/lib/jackson-core-2.16.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVM/ModelValidatorPlugin/lib/jackson-databind-2.16.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUseCompi/usecompi/lib/apache-xml-xerces.jar"/>
+	<classpathentry kind="lib" path="C:/Users/utopi/git/MVMUse/use/lib/plugins/ModelValidatorPlugin-5.1.0-r1.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

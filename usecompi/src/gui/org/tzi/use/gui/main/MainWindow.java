@@ -28,6 +28,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Polygon;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -64,6 +65,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -84,11 +86,16 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+//import org.tzi.use.kodkod.plugin.gui.ValidatorMVMDialogSimple;
+//import org.tzi.kodkod.KodkodModelValidator;
 
+import org.tzi.kodkod.KodkodModelValidator;
 //import org.tzi.kodkod.model.iface.IModel;
 import org.tzi.use.config.Options;
 import org.tzi.use.config.RecentItems;
 import org.tzi.use.config.RecentItems.RecentItemsObserver;
+//import org.tzi.use.gui.main.EventThreads.IEventEnded;
+//import org.tzi.use.gui.main.EventThreads.IEventStarted;
 import org.tzi.use.gui.main.runtime.IPluginActionExtensionPoint;
 import org.tzi.use.gui.util.ExtFileFilter;
 import org.tzi.use.gui.util.StatusBar;
@@ -112,6 +119,7 @@ import org.tzi.use.gui.views.diagrams.behavior.shared.VisibleDataManager;
 import org.tzi.use.gui.views.diagrams.classdiagram.ClassDiagramView;
 import org.tzi.use.gui.views.diagrams.objectdiagram.NewObjectDiagramView;
 import org.tzi.use.gui.views.diagrams.statemachine.StateMachineDiagramView;
+//import org.tzi.use.kodkod.UseKodkodModelValidator;
 import org.tzi.use.main.ChangeEvent;
 import org.tzi.use.main.ChangeListener;
 import org.tzi.use.main.Session;
@@ -146,6 +154,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+//import org.tzi.kodkod.EventThreads;
+//import org.tzi.kodkod.KodkodModelValidator;
 
 /**
  * The main application window of USE.
@@ -157,6 +167,11 @@ import com.itextpdf.text.pdf.PdfWriter;
  */
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
+	
+//	private KodkodModelValidator fKodkod;
+	
+	private JDialog validatorDialog;
+	
 	private final Session fSession;
 
 	private final StatusBar fStatusBar;
@@ -199,12 +214,15 @@ public class MainWindow extends JFrame {
 
 	public boolean existDiagram=false;
 	public boolean existWizard=false;
+	public boolean existDialogMVM=false;
 
 	private static final String STATE_EVAL_OCL = "Evaluate OCL expression";
 
 	private PageFormat fPageFormat;
 
 	private static MainWindow fInstance; // global instance of main window
+//	public static KodkodModelValidator varKodKod;
+//	public static EventThreads hiloGreedy;
 
 	private JMenu recentFilesMenu;
 
@@ -234,6 +252,8 @@ public class MainWindow extends JFrame {
 		}
 		fInstance = this;
 		fSession = session;
+		
+//		UseKodkodModelValidator uk = new UseKodkodModelValidator(session);
 
 		// create toolbar
 		fToolBar = new JToolBar();
@@ -635,6 +655,25 @@ public class MainWindow extends JFrame {
 					}});
 	}
 
+    // Método para acceder al diálogo desde otras clases
+    public JDialog getValidatorDialog() {
+        return validatorDialog;
+    }
+
+    public void setValidatorDialog(JDialog dialog) {
+        this.validatorDialog = dialog;
+    }
+	
+	//--
+	// Métodos para acceder al diálogo desde otras clases
+//	public KodkodModelValidator getKodKod() {
+//		return fKodkod;
+//	}
+//
+//	public void setKodKod(KodkodModelValidator pKodKod) {
+//		this.fKodkod = pKodKod;
+//	}
+    
 	public void createSequenceDiagram(VisibleDataManager visibleDataManger) {
 		SequenceDiagramView sv = SequenceDiagramView.createSequenceDiagramView(
 				fSession.system(),
@@ -2006,6 +2045,25 @@ public class MainWindow extends JFrame {
 		}
 		return;
 	}
+	
+	//---
+	public boolean checkExistDialog() {
+		existDialogMVM=false;
+		Window[]  ws = getOwnedWindows();
+		for (Window wItem: ws) {
+			System.out.println ("wItem " + wItem);
+//			if (ifr.getName().equals(NAMEFRAMEMVMDIAGRAM)) {
+//				existDiagram=true;
+//			}
+//			if (ifr.getName().equals(NAMEFRAMEMVMWIZARD)) {
+//				existWizard=true;
+//			}
+		}
+		return existDialogMVM;
+	}
+	
+	//---
+	
 	private void createObjDiagram() {
 		NewObjectDiagramView odv = new NewObjectDiagramView(this, fSession.system());
 		ViewFrame f = new ViewFrame("Object diagram", odv, "ObjectDiagram.gif");
@@ -2508,3 +2566,54 @@ public class MainWindow extends JFrame {
 		return new ImageIcon(Options.getIconPath(name).toString());
 	}
 }
+//abstract class EventThreads extends Thread {
+//
+//	private List<IEventStarted> listenersStarted = new ArrayList<>();
+//	private List<IEventEnded> listenersEnded = new ArrayList<>();
+//
+//	public EventThreads() {
+//		this(false);
+//	}
+//
+//	public EventThreads(final boolean isDaemon) {
+//		this.setDaemon(isDaemon);
+//	}
+//
+//	public void run () {
+//		for (IEventStarted o : listenersStarted) {
+//			o.started();
+//		}
+//
+//		operacionesRun();
+//
+//		for (IEventEnded o : listenersEnded) {
+//			o.finalizado();
+//		}
+//	}
+//
+//	public abstract void operacionesRun();
+//
+//	public void addListenerStarted(IEventStarted IEventStarted) {
+//		listenersStarted.add(IEventStarted);
+//	}
+//
+//	public void removeListenerStarted(IEventStarted escuchador) {
+//		listenersStarted.remove(escuchador);
+//	}
+//
+//	public void addListenerEnded(IEventEnded escuchador) {
+//		listenersEnded.add(escuchador);
+//	}
+//
+//	public void removeListenerEnded(IEventEnded escuchador) {
+//		listenersEnded.remove(escuchador);
+//	}
+//
+//	public interface IEventStarted {
+//		void started();
+//	}
+//
+//	public interface IEventEnded {
+//		void finalizado();
+//	}
+//}
