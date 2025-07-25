@@ -270,13 +270,20 @@
 
 	<!-- compile USE sources -->
 	<target name="compile-use" depends="compile-use-runtime" />
-
+	<!--
 	<target name="compile-use-main" depends="create-parser, setversion">
 		<mkdir dir="${build.classes.dir}" />
+	
 		<javac srcdir="${src.main.dir}:${src.runtime.dir}:${src.gui.dir}"
 			destdir="${build.classes.dir}" deprecation="on" debug="${javac.debug}" listfiles="off"
 			classpath="${antlr.jar}:${jruby.jar}:${combinatoricslib.jar}:${vtd-xml.jar}:${itextpdf.jar}:${guava.jar}:${annotation.jar}"
 			source="${java.sourceversion}" target="${java.targetversion}" includeantruntime="false">
+		</javac>
+		
+		<javac srcdir="${src.main.dir}:${src.runtime.dir}:${src.gui.dir}"
+		    destdir="${build.classes.dir}" deprecation="on" debug="${javac.debug}" listfiles="off"
+		    classpath="${antlr.jar}:${jruby.jar}:${combinatoricslib.jar}:${vtd-xml.jar}:${itextpdf.jar}:${guava.jar}:${annotation.jar}:${lib.dir}/plugins/ModelValidatorPlugin-5.1.0-r1.jar"
+		    source="${java.sourceversion}" target="${java.targetversion}" includeantruntime="false">
 		</javac>
 		<javac srcdir="${src.test.dir}"
 			destdir="${build.classes.dir}" deprecation="on" debug="${javac.debug}" listfiles="off"
@@ -286,6 +293,34 @@
 		</javac>
 	</target>
 
+	-->
+	<target name="compile-use-main" depends="create-parser, setversion">
+	    <mkdir dir="${build.classes.dir}" />
+
+	    <javac srcdir="${src.main.dir}:${src.runtime.dir}:${src.gui.dir}"
+	        destdir="${build.classes.dir}"
+	        deprecation="on"
+	        debug="${javac.debug}"
+	        listfiles="off"
+	        includeantruntime="false"
+	        source="${java.sourceversion}"
+	        target="${java.targetversion}"
+	        classpath="${antlr.jar}:${jruby.jar}:${combinatoricslib.jar}:${vtd-xml.jar}:${itextpdf.jar}:${guava.jar}:${annotation.jar}:${lib.dir}/plugins/ModelValidatorPlugin-5.1.0-r1.jar:${lib.dir}/plugins/kodkod.jar">
+	    </javac>
+
+	    <javac srcdir="${src.test.dir}"
+	        destdir="${build.classes.dir}"
+	        deprecation="on"
+	        debug="${javac.debug}"
+	        listfiles="off"
+	        includeantruntime="false"
+	        source="${java.sourceversion}"
+	        target="${java.targetversion}"
+	        classpath="${antlr.jar}:${junit.jar}:${gsbase.jar}:${combinatoricslib.jar}:${vtd-xml.jar}:${itextpdf.jar}">
+	        <exclude name="org/tzi/use/gui/**/*.java" />
+	    </javac>
+	</target>
+	
 	<target name="compile-use-gui" depends="compile-use-main">
 		<mkdir dir="${build.classes.dir}" />
 		<javac srcdir="${src.gui.dir}:${src.runtime.dir}"

@@ -90,6 +90,7 @@ import javax.swing.event.PopupMenuListener;
 //import org.tzi.kodkod.KodkodModelValidator;
 
 import org.tzi.kodkod.KodkodModelValidator;
+//import org.tzi.kodkod.KodkodModelValidator;
 //import org.tzi.kodkod.model.iface.IModel;
 import org.tzi.use.config.Options;
 import org.tzi.use.config.RecentItems;
@@ -119,6 +120,7 @@ import org.tzi.use.gui.views.diagrams.behavior.shared.VisibleDataManager;
 import org.tzi.use.gui.views.diagrams.classdiagram.ClassDiagramView;
 import org.tzi.use.gui.views.diagrams.objectdiagram.NewObjectDiagramView;
 import org.tzi.use.gui.views.diagrams.statemachine.StateMachineDiagramView;
+import org.tzi.use.kodkod.UseKodkodModelValidator;
 //import org.tzi.use.kodkod.UseKodkodModelValidator;
 import org.tzi.use.main.ChangeEvent;
 import org.tzi.use.main.ChangeListener;
@@ -168,7 +170,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
 	
-//	private KodkodModelValidator fKodkod;
+	private UseKodkodModelValidator fKodkod;
 	
 	private JDialog validatorDialog;
 	
@@ -666,13 +668,13 @@ public class MainWindow extends JFrame {
 	
 	//--
 	// Métodos para acceder al diálogo desde otras clases
-//	public KodkodModelValidator getKodKod() {
-//		return fKodkod;
-//	}
-//
-//	public void setKodKod(KodkodModelValidator pKodKod) {
-//		this.fKodkod = pKodKod;
-//	}
+	public UseKodkodModelValidator getKodKod() {
+		return fKodkod;
+	}
+
+	public void setKodKod(UseKodkodModelValidator pKodKod) {
+		this.fKodkod = pKodKod;
+	}
     
 	public void createSequenceDiagram(VisibleDataManager visibleDataManger) {
 		SequenceDiagramView sv = SequenceDiagramView.createSequenceDiagramView(
