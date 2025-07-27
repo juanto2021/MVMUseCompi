@@ -656,7 +656,29 @@ public class MainWindow extends JFrame {
 						});
 					}});
 	}
-
+	public void enableAction(String nameAction, String nameIcon,boolean bEnabled) {
+		for (Map.Entry<Map<String, String>, PluginActionProxy> entry : pluginActions.entrySet()) {
+			Map<String, String> actionInfo = entry.getKey();
+			String menuItem = actionInfo.get("menuitem");
+			System.out.println("menuitem "+menuItem);
+			if (nameAction.equals(menuItem)) {
+				for (Component comp : fToolBar.getComponents()) {
+					if (comp instanceof JButton) {
+						JButton btn = (JButton) comp;
+						String name = btn.getIcon().toString();
+						System.out.println("name: [" + name+"]");
+						System.out.println("tooltip: [" + btn.getToolTipText()+"]");
+//						if ("Stop calculating combinations".equals(btn.getToolTipText())) {
+							if (name.contains(nameIcon)) {
+							// Lo encontraste — puedes desactivarlo o cambiar su icono
+							btn.setEnabled(false);
+//							btn.setDisabledIcon(new ImageIcon(getClass().getClassLoader().getResource("resources/stopCmb_disabled.png")));
+						}
+					}
+				}
+			}
+		}
+	}
     // Método para acceder al diálogo desde otras clases
     public JDialog getValidatorDialog() {
         return validatorDialog;
