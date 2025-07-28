@@ -59,6 +59,7 @@ import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
+import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -656,29 +657,68 @@ public class MainWindow extends JFrame {
 						});
 					}});
 	}
-	public void enableAction(String nameAction, String nameIcon,boolean bEnabled) {
+	public void enableAction(String nameAction, boolean bEnabled) {
 		for (Map.Entry<Map<String, String>, PluginActionProxy> entry : pluginActions.entrySet()) {
 			Map<String, String> actionInfo = entry.getKey();
+
 			String menuItem = actionInfo.get("menuitem");
 			System.out.println("menuitem "+menuItem);
 			if (nameAction.equals(menuItem)) {
 				for (Component comp : fToolBar.getComponents()) {
 					if (comp instanceof JButton) {
 						JButton btn = (JButton) comp;
-						String name = btn.getIcon().toString();
+						Action ac = btn.getAction();
+
+						Object oa = ac.getValue("Name");
+						String name = oa.toString();
 						System.out.println("name: [" + name+"]");
 						System.out.println("tooltip: [" + btn.getToolTipText()+"]");
-//						if ("Stop calculating combinations".equals(btn.getToolTipText())) {
-							if (name.contains(nameIcon)) {
+						//						if ("Stop calculating combinations".equals(btn.getToolTipText())) {
+						//						if (name.contains(nameIcon)) {
+						//							// Lo encontraste — puedes desactivarlo o cambiar su icono
+						//							btn.setEnabled(bEnabled);
+						//						}
+
+						if (name.equals(nameAction)) {
 							// Lo encontraste — puedes desactivarlo o cambiar su icono
-							btn.setEnabled(false);
-//							btn.setDisabledIcon(new ImageIcon(getClass().getClassLoader().getResource("resources/stopCmb_disabled.png")));
+							btn.setEnabled(bEnabled);
+						}
+					}
+				}
+
+				for (int i = 0; i < fMenuBar.getMenuCount(); i++) {
+					JMenu menu = fMenuBar.getMenu(i);
+					if (menu != null) {
+						String name = menu.getText();
+						System.out.println("name: [" + name+"]");
+						for (int j = 0; j < menu.getItemCount(); j++) {
+							JMenuItem item = menu.getItem(j);
+							if (item!=null) {
+								String nameItem = item.getText();
+								System.out.println("   nameItem: [" + nameItem+"]");
+								if (nameItem.equals("ValidationMVM")) {
+									JMenu menuMVM = (JMenu) item;
+									for (int k = 0; k < menuMVM.getItemCount(); k++) {
+										JMenuItem itemMVM = menuMVM.getItem(k);
+										if (itemMVM!=null) {
+											String nameItemMVM = itemMVM.getText();
+											System.out.println("      nameItemMVM: [" + nameItemMVM+"]");
+											if (nameItemMVM.equals(nameAction)) {
+												// ¡Lo encontraste!
+												itemMVM.setEnabled(false); // o cualquier otra acción
+												System.out.println("Desactivando menuitem: " + nameItemMVM);
+											}				
+										}
+									}
+								}
+							}
 						}
 					}
 				}
 			}
 		}
 	}
+	
     // Método para acceder al diálogo desde otras clases
     public JDialog getValidatorDialog() {
         return validatorDialog;
