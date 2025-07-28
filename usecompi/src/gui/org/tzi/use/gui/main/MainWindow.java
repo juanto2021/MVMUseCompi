@@ -122,6 +122,7 @@ import org.tzi.use.gui.views.diagrams.classdiagram.ClassDiagramView;
 import org.tzi.use.gui.views.diagrams.objectdiagram.NewObjectDiagramView;
 import org.tzi.use.gui.views.diagrams.statemachine.StateMachineDiagramView;
 import org.tzi.use.kodkod.UseKodkodModelValidator;
+import org.tzi.use.kodkod.plugin.gui.ValidatorMVMDialogSimple;
 //import org.tzi.use.kodkod.UseKodkodModelValidator;
 import org.tzi.use.main.ChangeEvent;
 import org.tzi.use.main.ChangeListener;
@@ -173,7 +174,9 @@ public class MainWindow extends JFrame {
 	
 	private UseKodkodModelValidator fKodkod;
 	
-	private JDialog validatorDialog;
+//	private JDialog validatorDialog;
+	
+	private ValidatorMVMDialogSimple validatorDialog;
 	
 	private final Session fSession;
 
@@ -720,13 +723,24 @@ public class MainWindow extends JFrame {
 	}
 	
     // Método para acceder al diálogo desde otras clases
-    public JDialog getValidatorDialog() {
-        return validatorDialog;
-    }
+//    public JDialog getValidatorDialog() {
+//        return validatorDialog;
+//    }
+//
+//    public void setValidatorDialog(JDialog dialog) {
+//        this.validatorDialog = dialog;
+//    }
+	
+	public ValidatorMVMDialogSimple getValidatorDialog() {
+		return validatorDialog;
+	}
 
-    public void setValidatorDialog(JDialog dialog) {
-        this.validatorDialog = dialog;
-    }
+	public void setValidatorDialog(ValidatorMVMDialogSimple dialog) {
+		this.validatorDialog = dialog;
+//		if (wizardMVMView!=null) {
+//			wizardMVMView.enableBtnViewCmbs();
+//		}
+	}
 	
 	//--
 	// Métodos para acceder al diálogo desde otras clases
