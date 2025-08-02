@@ -215,7 +215,7 @@ public class MainWindow extends JFrame {
 	private static int DEFAULT_HEIGHT_MVM = 800;
 	private static final String NAMEFRAMEMVMDIAGRAM = "MVM";
 	private static final String NAMEFRAMEMVMWIZARD = "MVMWizard";
-	private static ViewFrame frameWizard;
+	public static ViewFrame frameWizard;
 	public static WizardMVMView wizardMVMView;
 
 	public boolean existDiagram=false;
@@ -2586,6 +2586,9 @@ public class MainWindow extends JFrame {
 	public void refreshMVMWizard() {
 		// Buscar wizard y eliminar
 		wizardMVMView.refreshComponents();
+	}
+	public WizardMVMView getMVMWizard() {
+		return wizardMVMView;
 	}
 
 	/**
