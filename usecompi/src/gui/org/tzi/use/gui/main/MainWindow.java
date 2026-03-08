@@ -217,6 +217,9 @@ public class MainWindow extends JFrame {
 	private static final String NAMEFRAMEMVMWIZARD = "MVMWizard";
 	public static ViewFrame frameWizard;
 	public static WizardMVMView wizardMVMView;
+	
+	public List<String> listStrSatisfiables = new ArrayList<String>();
+	public List<String> listStrUnSatisfiables = new ArrayList<String>();
 
 	public boolean existDiagram=false;
 	public boolean existWizard=false;
@@ -2181,7 +2184,7 @@ public class MainWindow extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			checkExistObjDiagramAndWizard();
 			if (!existWizard) {
-				showMVMWizard(NAMEFRAMEMVMWIZARD);
+				showMVMWizard(NAMEFRAMEMVMWIZARD, listStrSatisfiables, listStrUnSatisfiables);
 			}else {
 				String mensaje = "It is not necessary to open Wizard because it is already open.";
 				JOptionPane.showMessageDialog(null, mensaje, "MVM Wizard",JOptionPane.INFORMATION_MESSAGE);
@@ -2559,7 +2562,7 @@ public class MainWindow extends JFrame {
 		return opv;
 	}
 
-	public WizardMVMView showMVMWizard(String name) {
+	public WizardMVMView showMVMWizard(String name, List<String> pListStrSatisfiables, List<String> pListUnStrSatisfiables) {
 		// Abrir vista si no hay ninguna creada previamente
 		WizardMVMView opv = new WizardMVMView(MainWindow.this,
 				fSession, fLogWriter);
@@ -2576,6 +2579,9 @@ public class MainWindow extends JFrame {
 		String commandName = "";
 		ActionEvent ev = new ActionEvent(this, uniqueId, commandName);
 		fActionViewTile.actionPerformed(ev);
+		wizardMVMView.refreshComponents();// JG
+		listStrSatisfiables=pListStrSatisfiables;
+		listStrUnSatisfiables=pListUnStrSatisfiables;
 
 		return opv;
 	}
