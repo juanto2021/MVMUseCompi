@@ -1,20 +1,6 @@
 /.classpath_old
 /.classpath_20230311
-/.classpath
-/.classpath_sabadell
-/.classpath_sabadell_old
-/.classpath_sitges
-/.gitignore
-/.project
-/AUTHORS
-/COPYING
-/ChangeLog
-/INSTALL
-/NEWS
-/README
-/README.OCL
 /bin/
-/org/
 /build.xml
 /classpath
 /etc/
@@ -25,4 +11,5 @@
 /oclextensions/
 /resources/
 /test/
+/org/
 /src/
